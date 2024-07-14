@@ -6,6 +6,7 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/hussammohammed/marketplace-go-microservices/gateway/server"
 	"github.com/spf13/cobra"
 )
 
@@ -15,7 +16,10 @@ var runCmd = &cobra.Command{
 	Short: "run server",
 	Long:  `run server and load all required configuration upon to selected environment`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("run called")
+		err := server.Run()
+		if err != nil {
+			fmt.Println(err)
+		}
 	},
 }
 

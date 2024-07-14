@@ -10,6 +10,7 @@ import (
 
 	"github.com/hussammohammed/marketplace-go-microservices/gateway/config"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -54,4 +55,5 @@ func initConfig() {
 	if err != nil {
 		panic(err.Error())
 	}
+	fmt.Printf("config file used:%v", viper.ConfigFileUsed())
 }
