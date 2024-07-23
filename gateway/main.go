@@ -1,7 +1,11 @@
+/*
+Copyright © 2024 NAME HERE <EMAIL ADDRESS>
+
+*/
 package main
 
-import "fmt"
+import "github.com/hussammohammed/marketplace-go-microservices/gateway/cmd"
 
 func main() {
-	fmt.Println("starting gateway..")
+	cmd.Execute()
 }
