@@ -5,7 +5,6 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	routes "github.com/hussammohammed/marketplace-go-microservices/gateway/server/routes"
 	"github.com/spf13/viper"
 )
 
@@ -19,7 +18,9 @@ func Run() error {
 	config.AllowHeaders = []string{"Origin", "Authorization", "Content-Type", "Access-Control-Allow-Origin"}
 	router.Use(cors.New(config))
 
-	routes.DebuggingRoutes(router)
-	routes.AuthRoutes(router)
+	// create middleware
+	middleware := NewMiddleware()
+	DebuggingRoutes(router, nil)
+	AuthRoutes(router, middleware)
 	return router.Run(fmt.Sprintf("%v:%v", viper.GetString("server.host"), viper.GetString("server.port")))
 }
