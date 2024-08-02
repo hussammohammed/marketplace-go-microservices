@@ -16,5 +16,5 @@ func NewUser() *User {
 }
 
 func (s *User) CheckHealth(ctx context.Context, rr *protos.CheckHealthRequest) (*protos.CheckHealthResponse, error) {
-	return &protos.CheckHealthResponse{StatusCode: http.StatusOK, Status: "healthy"}, nil
+	return &protos.CheckHealthResponse{StatusCode: http.StatusOK, Status: "user service is healthy"}, nil
 }
