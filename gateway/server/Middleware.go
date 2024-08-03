@@ -4,13 +4,15 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	user "github.com/hussammohammed/marketplace-go-microservices/gateway/user"
 )
 
 type Middleware struct {
+	userService user.IUserService
 }
 
-func NewMiddleware() *Middleware {
-	return &Middleware{}
+func NewMiddleware(iUserService user.IUserService) *Middleware {
+	return &Middleware{userService: iUserService}
 }
 
 func (m *Middleware) AuthAPIRequest(c *gin.Context) {
