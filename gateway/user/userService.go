@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/hussammohammed/marketplace-go-microservices/gateway/helpers"
 	userMicroService "github.com/hussammohammed/marketplace-go-microservices/gateway/server/grpcClients/protos/user"
 )
 
@@ -23,10 +24,11 @@ type IUserService interface {
 }
 type UserService struct {
 	userMicroService userMicroService.UserClient
+	cryptHelper      helpers.ICryptHelper
 }
 
-func NewUserService(userMicroSvc userMicroService.UserClient) *UserService {
-	return &UserService{userMicroService: userMicroSvc}
+func NewUserService(userMicroSvc userMicroService.UserClient, iCryptHelper helpers.ICryptHelper) *UserService {
+	return &UserService{userMicroService: userMicroSvc, cryptHelper: iCryptHelper}
 }
 func (u *UserService) Login(loginDto LoginDto) (string, error) {
 	if loginDto.Email == "" || loginDto.Password == "" {
@@ -44,7 +46,12 @@ func (u *UserService) Login(loginDto LoginDto) (string, error) {
 
 func (u *UserService) isUserExist(loginDto LoginDto) (bool, error) {
 	//u.userMicroService.CheckHealth()
-	if loginDto.Email == "xyz" {
+	dbPass, _ := u.cryptHelper.HashPassword("123456")
+	comparErr := u.cryptHelper.ComparePasswords(dbPass, loginDto.Password)
+	if comparErr != nil {
+		return false, comparErr
+	}
+	if loginDto.Email == "xyz@gmail.com" {
 		return true, nil
 	}
 	return false, nil

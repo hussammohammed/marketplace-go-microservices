@@ -12,3 +12,15 @@ message CheckHealthResponse{
     int32 statusCode =1;
     string status =2;
 }
+
+message UserDataRequest{
+   string userName=1;
+   string password=2;
+}
+
+message UserDataResponse{
+    string token=1;
+    string email = 2;
+    string zipCode=3;
+    string phone=4;
+}

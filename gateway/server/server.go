@@ -7,6 +7,7 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/hussammohammed/marketplace-go-microservices/gateway/helpers"
 	userMicroService "github.com/hussammohammed/marketplace-go-microservices/gateway/server/grpcClients/protos/user"
 	user "github.com/hussammohammed/marketplace-go-microservices/gateway/user"
 	"github.com/spf13/viper"
@@ -32,8 +33,11 @@ func Run() error {
 	// 1- initialize user service
 	userSvcClient := initUserSvcConnection()
 
+	//helpers
+	cryptHelper := helpers.NewCryptHelper()
+
 	// services
-	userSvc := user.NewUserService(userSvcClient)
+	userSvc := user.NewUserService(userSvcClient, cryptHelper)
 
 	// controllers
 	userCtrl := user.NewUserController(userSvc)
