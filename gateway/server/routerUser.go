@@ -8,4 +8,5 @@ import (
 func UserRoutes(router *gin.Engine, middleware *Middleware, UserController *user.UserController) {
 	userGrp := router.Group("/user")
 	userGrp.POST("/login", UserController.Login)
+	userGrp.POST("/logout", UserController.Logout)
 }

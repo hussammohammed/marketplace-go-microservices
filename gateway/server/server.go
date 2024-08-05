@@ -33,20 +33,16 @@ func Run() error {
 	userSvcClient := initUserSvcConnection()
 
 	// services
-	userSvc := user.NewUserService(&userSvcClient)
+	userSvc := user.NewUserService(userSvcClient)
 
 	// controllers
 	userCtrl := user.NewUserController(userSvc)
 	// create middleware
 	middleware := NewMiddleware(userSvc)
 	// set all system routes
-	getRoutes(router, middleware, userCtrl)
-	return router.Run(fmt.Sprintf("%v:%v", viper.GetString("server.host"), viper.GetString("server.port")))
-}
-
-func getRoutes(router *gin.Engine, middleware *Middleware, userCtrl *user.UserController) {
 	UserRoutes(router, middleware, userCtrl)
-	//DebuggingRoutes(router, middleware, userSvcClient)
+	DebuggingRoutes(router, middleware, userSvcClient)
+	return router.Run(fmt.Sprintf("%v:%v", viper.GetString("server.host"), viper.GetString("server.port")))
 }
 
 func initUserSvcConnection() userMicroService.UserClient {

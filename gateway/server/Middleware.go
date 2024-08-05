@@ -20,6 +20,13 @@ func (m *Middleware) AuthAPIRequest(c *gin.Context) {
 	if authToken == "" {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized user"})
 		c.Abort()
+		return
+	}
+	_, err := m.userService.ValidateAuthToken(authToken)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		c.Abort()
+		return
 	}
 	c.Next()
 }
