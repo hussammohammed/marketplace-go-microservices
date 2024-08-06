@@ -1,13 +1,7 @@
 package helpers
 
 import (
-	"os"
-
 	"golang.org/x/crypto/bcrypt"
-)
-
-var (
-	secretKey = []byte(os.Getenv("JWT_SECRET_KEY"))
 )
 
 type ICryptHelper interface {
@@ -23,13 +17,7 @@ func NewCryptHelper() *CryptHelper {
 }
 
 func (c *CryptHelper) HashPassword(password string) (string, error) {
-	// Concatenate salt with the password
-	// log.Println(password)
-	// log.Println(string(secretKey))
-	// log.Println("****************")
-	// passwordWithSalt := append([]byte(password), secretKey...)
-
-	// Hash the password with the generated salt
+	// Hash the password
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
 		return "", err

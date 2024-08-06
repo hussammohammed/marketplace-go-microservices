@@ -5,6 +5,7 @@ option go_package="github.com/hussammohammed/marketplace-go-microservices/gatewa
 service User{
     // check user service health
     rpc CheckHealth(CheckHealthRequest) returns (CheckHealthResponse){};
+    rpc GetUserInfo(UserDataRequest) returns (UserDataResponse){};
 }
 message CheckHealthRequest{}
 
