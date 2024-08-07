@@ -8,7 +8,9 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/hussammohammed/marketplace-go-microservices/gateway/helpers"
+	msgBrk "github.com/hussammohammed/marketplace-go-microservices/gateway/messageBroker"
 	userMicroService "github.com/hussammohammed/marketplace-go-microservices/gateway/server/grpcClients/protos/user"
+	order "github.com/hussammohammed/marketplace-go-microservices/gateway/servicesHandlers/order"
 	user "github.com/hussammohammed/marketplace-go-microservices/gateway/user"
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"
@@ -35,16 +37,21 @@ func Run() error {
 
 	//helpers
 	cryptHelper := helpers.NewCryptHelper()
-
+	// message broker
+	brokersUrl := []string{"localhost:9092"}
+	msgBroker := msgBrk.NewProducerService(brokersUrl)
 	// services
 	userSvc := user.NewUserService(userSvcClient, cryptHelper)
+	orderSvc := order.NewOrderService(msgBroker)
 
 	// controllers
 	userCtrl := user.NewUserController(userSvc)
+	orderCtrl := order.NewOrderController(orderSvc)
 	// create middleware
 	middleware := NewMiddleware(userSvc)
 	// set all system routes
 	UserRoutes(router, middleware, userCtrl)
+	OrderRoutes(router, middleware, orderCtrl)
 	DebuggingRoutes(router, middleware, userSvcClient)
 	return router.Run(fmt.Sprintf("%v:%v", viper.GetString("server.host"), viper.GetString("server.port")))
 }
