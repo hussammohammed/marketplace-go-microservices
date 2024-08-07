@@ -34,7 +34,8 @@ func Run() error {
 	// initialize grpc services
 	// 1- initialize user service
 	userSvcClient := initUserSvcConnection()
-
+	//enum
+	eventsEnum := msgBrk.NewEventsEnum()
 	//helpers
 	cryptHelper := helpers.NewCryptHelper()
 	// message broker
@@ -42,7 +43,7 @@ func Run() error {
 	msgBroker := msgBrk.NewProducerService(brokersUrl)
 	// services
 	userSvc := user.NewUserService(userSvcClient, cryptHelper)
-	orderSvc := order.NewOrderService(msgBroker)
+	orderSvc := order.NewOrderService(msgBroker, eventsEnum)
 
 	// controllers
 	userCtrl := user.NewUserController(userSvc)

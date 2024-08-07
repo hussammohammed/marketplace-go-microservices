@@ -11,16 +11,17 @@ type IOrderService interface {
 }
 type OrderService struct {
 	producerService msgBro.IProducerService
+	eventsEnum      msgBro.Events
 }
 
-func NewOrderService(iProducerService msgBro.IProducerService) *OrderService {
-	return &OrderService{producerService: iProducerService}
+func NewOrderService(iProducerService msgBro.IProducerService, events msgBro.Events) *OrderService {
+	return &OrderService{producerService: iProducerService, eventsEnum: events}
 }
 
 func (o *OrderService) CreateOrder(orderReq OrderReq) error {
 	event := msgBro.Event{
 		Topic: "order-events",
-		Text:  fmt.Sprintf("init-order#%v", orderReq.UserId),
+		Text:  fmt.Sprintf("%v#%v", o.eventsEnum.OrderCreated, orderReq.UserId),
 	}
 	err := o.producerService.SendEvent(event)
 	if err != nil {
