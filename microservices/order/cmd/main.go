@@ -3,15 +3,29 @@ package main
 import (
 	"log"
 
-	"github.com/hussammohammed/marketplace-go-microservices/microservices/order/internal/model"
-	producer "github.com/hussammohammed/marketplace-go-microservices/microservices/order/internal/service"
+	"github.com/hussammohammed/marketplace-go-microservices/microservices/order/internal/controller"
+	msgBrk "github.com/hussammohammed/marketplace-go-microservices/microservices/order/internal/messageBroker"
 )
 
 func main() {
-	msgProducer := producer.NewProducerService()
-	testMsg := model.ProducerMsg{Topic: "order-events", Text: "New Order: #12345"}
-	err := msgProducer.PushMessageToQueue(testMsg)
-	if err != nil {
-		log.Println(err.Error())
+	// message broker
+	brokersUrl := []string{"localhost:9092"}
+	//enum
+	eventsEnum := msgBrk.NewEventsEnum()
+	// services
+	msgProducer := msgBrk.NewProducerService(brokersUrl)
+	// controllers
+	msgConsumer, consumerErr := msgBrk.NewConsumerService(brokersUrl)
+
+	if consumerErr != nil {
+		log.Fatalf("Error creating Kafka consumer: %v", consumerErr)
 	}
+	defer func() {
+		if err := msgConsumer.Consumer.Close(); err != nil {
+			log.Fatalf("Error closing Kafka consumer: %v", err)
+		}
+	}()
+
+	orderCtrl := controller.NewOrderController(msgProducer, msgConsumer, eventsEnum)
+	orderCtrl.HandleEvents()
 }

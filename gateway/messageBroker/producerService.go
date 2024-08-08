@@ -2,6 +2,7 @@ package messagebroker
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/IBM/sarama"
 )
@@ -10,7 +11,8 @@ type IProducerService interface {
 	SendEvent(message Event) error
 }
 type ProducerService struct {
-	producer sarama.SyncProducer
+	brokersUrl []string
+	producer   sarama.SyncProducer
 }
 
 func NewProducerService(brokersUrl []string) *ProducerService {
@@ -18,7 +20,7 @@ func NewProducerService(brokersUrl []string) *ProducerService {
 	if err != nil {
 		return &ProducerService{}
 	}
-	return &ProducerService{producer: prod}
+	return &ProducerService{producer: prod, brokersUrl: brokersUrl}
 }
 
 func connectProducer(brokersUrl []string) (sarama.SyncProducer, error) {
@@ -36,14 +38,23 @@ func connectProducer(brokersUrl []string) (sarama.SyncProducer, error) {
 }
 
 func (p *ProducerService) SendEvent(message Event) error {
-	defer p.producer.Close()
+	prod, err := connectProducer(p.brokersUrl)
+	if err != nil {
+		return err
+	}
+
+	defer func() {
+		if err := prod.Close(); err != nil {
+			log.Fatalf("Error closing partition consumer: %v", err)
+		}
+	}()
 
 	msg := &sarama.ProducerMessage{
 		Topic: message.Topic,
 		Value: sarama.StringEncoder(message.Text),
 	}
 
-	partition, offset, err := p.producer.SendMessage(msg)
+	partition, offset, err := prod.SendMessage(msg)
 	if err != nil {
 		return err
 	}

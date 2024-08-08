@@ -9,8 +9,8 @@ type Events struct {
 
 func NewEventsEnum() Events {
 	return Events{
-		OrderReceived: "order received",
-		OrderCreated:  "order created",
-		OrderUpdated:  "order updated",
+		OrderReceived: "OrderReceived",
+		OrderCreated:  "OrderCreated",
+		OrderUpdated:  "OrderUpdated",
 	}
 }
