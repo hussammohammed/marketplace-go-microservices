@@ -36,6 +36,7 @@ func Run() error {
 	userSvcClient := initUserSvcConnection()
 	//enum
 	eventsEnum := msgBrk.NewEventsEnum()
+	topicsEnum := msgBrk.NewTopicsEnum()
 	//helpers
 	cryptHelper := helpers.NewCryptHelper()
 	// message broker
@@ -43,7 +44,7 @@ func Run() error {
 	msgBroker := msgBrk.NewProducerService(brokersUrl)
 	// services
 	userSvc := user.NewUserService(userSvcClient, cryptHelper)
-	orderSvc := order.NewOrderService(msgBroker, eventsEnum)
+	orderSvc := order.NewOrderService(msgBroker, topicsEnum, eventsEnum)
 
 	// controllers
 	userCtrl := user.NewUserController(userSvc)

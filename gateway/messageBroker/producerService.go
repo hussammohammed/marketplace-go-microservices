@@ -8,7 +8,7 @@ import (
 )
 
 type IProducerService interface {
-	SendEvent(message Event) error
+	SendEvent(message *sarama.ProducerMessage) error
 }
 type ProducerService struct {
 	brokersUrl []string
@@ -37,7 +37,7 @@ func connectProducer(brokersUrl []string) (sarama.SyncProducer, error) {
 	return conn, nil
 }
 
-func (p *ProducerService) SendEvent(message Event) error {
+func (p *ProducerService) SendEvent(message *sarama.ProducerMessage) error {
 	prod, err := connectProducer(p.brokersUrl)
 	if err != nil {
 		return err
@@ -49,17 +49,12 @@ func (p *ProducerService) SendEvent(message Event) error {
 		}
 	}()
 
-	msg := &sarama.ProducerMessage{
-		Topic: message.Topic,
-		Value: sarama.StringEncoder(message.Text),
-	}
-
-	partition, offset, err := prod.SendMessage(msg)
+	partition, offset, err := prod.SendMessage(message)
 	if err != nil {
 		return err
 	}
 
-	fmt.Printf("Message is stored in topic(%s)/eventName(%s)/partition(%d)/offset(%d)\n", message.Topic, message.Text, partition, offset)
+	fmt.Printf("Message is stored in topic(%s)/eventName(%s)/partition(%d)/offset(%d)\n", message.Topic, message.Key, partition, offset)
 
 	return nil
 }
