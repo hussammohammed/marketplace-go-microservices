@@ -1,0 +1,27 @@
+syntax = "proto3";
+package user;
+option go_package="github.com/hussammohammed/marketplace-go-microservices/gateway/server/grpcClients/protos/user";
+
+service User{
+    // check user service health
+    rpc CheckHealth(CheckHealthRequest) returns (CheckHealthResponse){};
+    rpc GetUserInfo(UserDataRequest) returns (UserDataResponse){};
+}
+message CheckHealthRequest{}
+
+message CheckHealthResponse{
+    int32 statusCode =1;
+    string status =2;
+}
+
+message UserDataRequest{
+   string userName=1;
+   string password=2;
+}
+
+message UserDataResponse{
+    string token=1;
+    string email = 2;
+    string zipCode=3;
+    string phone=4;
+}
