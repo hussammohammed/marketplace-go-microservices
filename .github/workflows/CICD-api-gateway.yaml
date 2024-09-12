@@ -28,7 +28,7 @@ jobs:
 
     - name: Build
       run: go build -o gateway-api
-      working-directory: /gateway
+      working-directory: ./gateway
 
     - name: Test
       run: go test ./...
