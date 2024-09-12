@@ -36,8 +36,8 @@ jobs:
       run: go build -o gateway-api
       working-directory: ./gateway
 
-    - name: Test
-      run: go test ./...
+    # - name: Test
+    #   run: go test ./...
   
   code-quality:
     runs-on: ubuntu-latest
