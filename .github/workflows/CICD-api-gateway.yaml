@@ -27,6 +27,7 @@ jobs:
         go-version: 1.22
 
     - name: Restore dependencies 
+      working-directory: ./gateway
       run: |
         go mod tidy
         go mod vendor
