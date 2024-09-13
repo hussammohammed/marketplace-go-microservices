@@ -73,7 +73,7 @@ jobs:
     - name: Build and Push action
       uses: docker/build-push-action@v6
       with:
-        context: .
+        context: ./gateway
         file: ./gateway/Dockerfile
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/mp-go-micro-gateway:${{github.run_id}}
