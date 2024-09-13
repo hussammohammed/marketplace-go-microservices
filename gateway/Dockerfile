@@ -4,7 +4,7 @@ FROM golang:1.22.3
 # Creates an app directory to hold app’s source code
 #WORKDIR /github.com/hussammohammed/marketplace-go-microservices/gateway
 WORKDIR /app
-COPY go.mod .
+COPY go.mod ./
  
 # Download Go modules
 #COPY go.mod go.sum ./
