@@ -28,7 +28,10 @@ jobs:
 
     - name: Restore dependencies 
       working-directory: ./gateway
-      run: go get .
+      run: |
+        go get .
+        go mod tidy
+        go mod vendor
 
     - name: Build
       run: go build -o gateway-api
