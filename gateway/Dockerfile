@@ -21,7 +21,7 @@ ENV ENVNAME=development
 # Build
 #RUN CGO_ENABLED=0 GOOS=linux go build -o /gateway-api
 # Builds  app with optional configuration
-#RUN ls -l # to debug errors at build step
+RUN ls -l # to debug errors at build step
 RUN go build -o /gateway-api .
 #ENTRYPOINT ["./gateway-api", "run", "--cfg-name", "$ENVNAME"]
 ENTRYPOINT ./gateway-api run --cfg-name $ENVNAME
