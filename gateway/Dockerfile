@@ -25,7 +25,7 @@ ENV ENVNAME=development
 # Builds  app with optional configuration
 #to debug errors at build step
 RUN ls -l 
-RUN go build -o /gateway/gateway-api .
+RUN go build -o /gateway-api .
 #ENTRYPOINT ["./gateway-api", "run", "--cfg-name", "$ENVNAME"]
 ENTRYPOINT ./gateway-api run --cfg-name $ENVNAME
 EXPOSE 3000
