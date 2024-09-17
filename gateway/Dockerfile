@@ -4,10 +4,10 @@ FROM golang:1.22.3
 # Creates an app directory to hold app’s source code
 #WORKDIR /github.com/hussammohammed/marketplace-go-microservices/gateway
 WORKDIR /app
-COPY go.mod .
+#COPY gateway/go.mod gateway/go.sum ./
  
 # Download Go modules
-#COPY go.mod go.sum ./
+COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
 
@@ -22,7 +22,7 @@ ENV ENVNAME=development
 # Build
 #RUN CGO_ENABLED=0 GOOS=linux go build -o /gateway-api
 # Builds  app with optional configuration
-RUN go build -o /gateway-api .
+RUN go build -o gateway-api .
 #ENTRYPOINT ["./gateway-api", "run", "--cfg-name", "$ENVNAME"]
 ENTRYPOINT ./gateway-api run --cfg-name $ENVNAME
 EXPOSE 3000
