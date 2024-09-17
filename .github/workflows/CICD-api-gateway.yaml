@@ -46,10 +46,13 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
+      with:
+        path: gateway
 
     - name: Run golangci-lint
       uses: golangci/golangci-lint-action@v6
       with:
+        path: gateway
         version: v1.56.2
   
   push:
