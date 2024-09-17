@@ -1,15 +1,14 @@
 # Start from a Debian image with the latest version of Go installed
 FROM golang:1.22.3
-
 # Creates an app directory to hold app’s source code
 #WORKDIR /github.com/hussammohammed/marketplace-go-microservices/gateway
 WORKDIR /app
-COPY go.mod .
+COPY gateway/go.mod .
  
 # Download Go modules
 #COPY go.mod go.sum ./
 RUN go mod download
-COPY . .
+COPY gateway/. .
 
 #RUN go mod tidy
 #RUN go mod vendor
@@ -22,6 +21,7 @@ ENV ENVNAME=development
 # Build
 #RUN CGO_ENABLED=0 GOOS=linux go build -o /gateway-api
 # Builds  app with optional configuration
+#RUN ls -l # to debug errors at build step
 RUN go build -o /gateway-api .
 #ENTRYPOINT ["./gateway-api", "run", "--cfg-name", "$ENVNAME"]
 ENTRYPOINT ./gateway-api run --cfg-name $ENVNAME
