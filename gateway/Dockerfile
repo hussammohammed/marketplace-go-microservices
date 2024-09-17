@@ -7,7 +7,9 @@ COPY gateway/go.mod .
  
 # Download Go modules
 #COPY go.mod go.sum ./
-RUN go mod download
+RUN go mod tidy
+RUN go mod vendor
+#RUN go mod download
 COPY gateway/. .
 
 #RUN go mod tidy
