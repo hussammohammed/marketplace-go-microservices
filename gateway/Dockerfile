@@ -1,5 +1,5 @@
 # Start from a Debian image with the latest version of Go installed
-FROM golang:1.21
+FROM golang:1.22.3
 # Creates an app directory to hold app’s source code
 #WORKDIR /github.com/hussammohammed/marketplace-go-microservices/gateway
 WORKDIR /app
