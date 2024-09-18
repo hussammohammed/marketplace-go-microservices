@@ -29,7 +29,7 @@ jobs:
     - name: Restore dependencies 
       working-directory: ./gateway
       run: |
-        go get u
+        go get -u
         go mod tidy
         go mod vendor
 
