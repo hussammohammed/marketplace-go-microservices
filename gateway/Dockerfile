@@ -1,12 +1,12 @@
 # Start from a Debian image with the latest version of Go installed
-FROM golang:1.22.3
+FROM golang:1.21
 # Creates an app directory to hold app’s source code
 #WORKDIR /github.com/hussammohammed/marketplace-go-microservices/gateway
 WORKDIR /app
-COPY go.mod .
+#COPY go.mod .
  
 # Download Go modules
-#COPY go.mod go.sum ./
+COPY go.mod go.sum ./
 RUN go mod tidy
 RUN go mod vendor
 #RUN go mod download
