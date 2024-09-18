@@ -2,15 +2,15 @@
 FROM golang:1.22.3
 # Creates an app directory to hold app’s source code
 #WORKDIR /github.com/hussammohammed/marketplace-go-microservices/gateway
-WORKDIR /gateway
-COPY go.mod ./
+WORKDIR /app
+COPY gateway/go.mod .
  
 # Download Go modules
 #COPY go.mod go.sum ./
 RUN go mod tidy
 RUN go mod vendor
 #RUN go mod download
-COPY . .
+COPY gateway/. .
 
 #RUN go mod tidy
 #RUN go mod vendor
