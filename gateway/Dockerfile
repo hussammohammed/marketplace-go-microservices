@@ -6,11 +6,11 @@ WORKDIR /app
 #COPY go.mod .
  
 # Download Go modules
-COPY go.mod go.sum ./
+COPY ./gateway/go.mod ./
 RUN go mod tidy
 RUN go mod vendor
 #RUN go mod download
-COPY . .
+COPY ./gateway .
 
 #RUN go mod tidy
 #RUN go mod vendor
