@@ -6,11 +6,11 @@ WORKDIR /app
 #COPY go.mod .
  
 # Download Go modules
-COPY ./gateway/go.mod ./
+COPY go.mod ./
 RUN go mod tidy
 RUN go mod vendor
 #RUN go mod download
-COPY ./gateway .
+COPY . .
 
 #RUN go mod tidy
 #RUN go mod vendor
@@ -25,7 +25,7 @@ ENV ENVNAME=development
 # Builds  app with optional configuration
 #to debug errors at build step
 RUN ls -l 
-RUN go build -o /gateway-api .
+RUN go build -o gateway-api .
 #ENTRYPOINT ["./gateway-api", "run", "--cfg-name", "$ENVNAME"]
 ENTRYPOINT ./gateway-api run --cfg-name $ENVNAME
 EXPOSE 3000
