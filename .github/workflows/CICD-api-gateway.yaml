@@ -47,13 +47,13 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
-        path: gateway
+        path: ./gateway
 
     - name: Run golangci-lint
       uses: golangci/golangci-lint-action@v6
       with:
         version: v1.56.2
-        working-directory: gateway
+        working-directory: ./gateway
   
   push:
     runs-on: ubuntu-latest
