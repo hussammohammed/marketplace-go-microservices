@@ -8,7 +8,7 @@ image:
   repository: hossammd/marketplace-go-microservices
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "10980625290"
+  tag: "10980639461"
 
 imagePullSecrets: []
 nameOverride: ""
