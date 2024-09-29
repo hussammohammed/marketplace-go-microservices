@@ -1,5 +1,5 @@
 ### Project Description:
-this project as an example for building marketplace application using microservice architecture with **Golang, GIN, CLI (cobera), Kafka, gRPC , JWT, Viper, Docker, Kubernetes, Helm Charts, GitOps**
+this project as an example for building marketplace application using microservice architecture with **Golang, GIN, CLI (cobra), Kafka, gRPC , JWT, Viper, Docker, Kubernetes, Helm Charts, GitOps**
 
 #### system components
 [Api gateway] reponsible for communication between UI and all microservices. it's secured via JWT token and midleware on each api call. it takes api request and call proper microservice then return response to UI<br/>
