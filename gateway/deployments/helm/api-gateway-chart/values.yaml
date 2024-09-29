@@ -8,7 +8,7 @@ image:
   repository: hossammd/mp-go-micro-gateway
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "11093758520"
+  tag: "11093799694"
 
 imagePullSecrets: []
 nameOverride: ""
