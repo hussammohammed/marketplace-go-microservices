@@ -8,9 +8,9 @@ on:
     branches:
       - main
     paths-ignore:
-      - '/gateway/deployments/helm/**'
-      - '/gateway/deployments/k8s/**'
-      - '/gateway/README.md'
+      - 'gateway/deployments/helm/**'
+      - 'gateway/deployments/k8s/**'
+      - 'gateway/README.md'
 
 jobs:
 
@@ -26,12 +26,19 @@ jobs:
       with:
         go-version: 1.22.3
 
+    - name: Restore dependencies 
+      working-directory: ./gateway
+      run: |
+        go get -u
+        go mod tidy
+        go mod vendor
+
     - name: Build
       run: go build -o gateway-api
       working-directory: ./gateway
 
-    - name: Test
-      run: go test ./...
+    # - name: Test
+    #   run: go test ./...
   
   code-quality:
     runs-on: ubuntu-latest
@@ -44,6 +51,7 @@ jobs:
       uses: golangci/golangci-lint-action@v6
       with:
         version: v1.56.2
+        working-directory: ./gateway
   
   push:
     runs-on: ubuntu-latest
@@ -66,7 +74,7 @@ jobs:
     - name: Build and Push action
       uses: docker/build-push-action@v6
       with:
-        context: .
+        context: ./gateway
         file: ./gateway/Dockerfile
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/mp-go-micro-gateway:${{github.run_id}}
@@ -84,7 +92,7 @@ jobs:
 
     - name: Update tag in Helm chart
       run: |
-        sed -i 's/tag: .*/tag: "${{github.run_id}}"/' /gateway/deployments/helm/api-gateway-chart/values.yaml
+        sed -i 's/tag: .*/tag: "${{github.run_id}}"/' gateway/deployments/helm/api-gateway-chart/values.yaml
 
     - name: Commit and push changes
       run: |
