@@ -5,10 +5,48 @@ option go_package="github.com/hussammohammed/marketplace-go-microservices/micros
 service User{
     // check user service health
     rpc CheckHealth(CheckHealthRequest) returns (CheckHealthResponse){};
+    // create user
+    rpc CreateUser(createUserRequest) returns (createUserResponse){};
 }
 message CheckHealthRequest{}
 
 message CheckHealthResponse{
-    int32 statusCode =1;
-    string status =2;
+    int32 statusCode = 1;
+    string status = 2;
+}
+
+// Common fields for all user types
+message UserInfo {
+    string id = 1;
+    string name = 2;
+    string email = 3;
+    string password = 4;
+    string phone_number = 5;
+  }
+
+message Buyer {
+    UserInfo user = 1;
+    string shipping_address = 2;
+    repeated string payment_methods = 3;
+    // Optional fields
+    string date_of_birth = 4;
+    string profile_picture = 5;
+    string preferred_payment_method = 6;
+  }
+
+message Seller {
+    UserInfo user = 1;
+    string company_name = 2;
+    string business_type = 3;
+  }
+
+message createUserRequest{
+    UserInfo user = 1;
+    Buyer buyer = 2;
+    Seller seller = 3;
+}
+
+message createUserResponse{
+    int32 statusCode = 1;
+    string message = 2;
 }
