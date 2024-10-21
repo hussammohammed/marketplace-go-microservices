@@ -1,0 +1,2 @@
+db:
+  url: mongodb+srv://accounts_db_user:accounts123@cluster0.vsh7c.mongodb.net/accounts

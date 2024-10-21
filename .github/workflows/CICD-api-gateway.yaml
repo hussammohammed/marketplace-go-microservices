@@ -96,7 +96,6 @@ jobs:
 
     - name: Commit and push changes
       run: |
-        git config --global user.email "enghossam.fci@gmail.com"
         git config --global user.name "hussammohammed"
         git add gateway/deployments/helm/api-gateway-chart/values.yaml
         git commit -m "Update tag in Helm chart"
